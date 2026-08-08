@@ -1,0 +1,87 @@
+services:
+  envoy:
+    image: envoyproxy/envoy:v1.30-latest
+    container_name: zero-trust-gateway
+
+    # Image Envoy mặc định chuyển sang user envoy.
+    # Dùng UID/GID của người sở hữu các private key được bind mount.
+    environment:
+      ENVOY_UID: "${ENVOY_UID:-1000}"
+      ENVOY_GID: "${ENVOY_GID:-1000}"
+
+    ports:
+      - "443:443"
+
+    volumes:
+      # Cấu hình Envoy.
+      - ./envoy.yaml:/etc/envoy/envoy.yaml:ro
+
+      # Bộ cert bên ngoài: Client → Envoy.
+      - ./certs:/etc/envoy/certs:ro
+
+      # Bộ cert nội bộ: Envoy → Auth Service.
+      - ./service-certs/ca/service-ca.crt:/etc/envoy/upstream-tls/service-ca.crt:ro
+      - ./service-certs/envoy/envoy-upstream.crt:/etc/envoy/upstream-tls/envoy-upstream.crt:ro
+      - ./service-certs/envoy/envoy-upstream.key:/etc/envoy/upstream-tls/envoy-upstream.key:ro
+
+    networks:
+      - edge_net
+      - internal_net
+
+    depends_on:
+      - auth-service
+      - resource-api
+
+    restart: unless-stopped
+
+  auth-service:
+    build:
+      context: ../auth_service
+      dockerfile: Dockerfile
+
+    container_name: auth-service
+
+    volumes:
+      # JWT signing keys hiện có.
+      - ../auth_service/keys:/app/keys:ro
+
+      # Bộ server cert nội bộ của Auth Service.
+      - ./service-certs/ca/service-ca.crt:/app/tls/service-ca.crt:ro
+      - ./service-certs/auth/auth-service.crt:/app/tls/auth-service.crt:ro
+      - ./service-certs/auth/auth-service.key:/app/tls/auth-service.key:ro
+
+    expose:
+      - "8443"
+
+    networks:
+      - internal_net
+
+    restart: unless-stopped
+
+  resource-api:
+    build:
+      context: ../resource-api
+      dockerfile: Dockerfile
+
+    container_name: resource-api
+
+    volumes:
+      - ./service-certs/ca/service-ca.crt:/app/tls/service-ca.crt:ro
+      - ./service-certs/resource/resource-api.crt:/app/tls/resource-api.crt:ro
+      - ./service-certs/resource/resource-api.key:/app/tls/resource-api.key:ro
+
+    expose:
+      - "8443"
+
+    networks:
+      - internal_net
+
+    restart: unless-stopped
+
+networks:
+  edge_net:
+    driver: bridge
+
+  internal_net:
+    driver: bridge
+    internal: true

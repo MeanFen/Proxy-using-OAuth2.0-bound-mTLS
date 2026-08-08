@@ -1,0 +1,12 @@
+{
+  "vinh": {
+    "password_hash": "pbkdf2:sha256:600000$40URN8V9KNabb7a9$759d90103e38efcaf10af3c4d3e3a271331aa05337fa9c73bd6fa5d9590e6eaa",
+    "role": "student",
+    "scope": "read:resources"
+  },
+  "admin": {
+    "password_hash": "pbkdf2:sha256:600000$Vz0wyydO8PvixT0z$b1de47d70ff218591756beac19f028b76a982bf8a22e1dc980d054bf4aa50fe2",
+    "role": "admin",
+    "scope": "read:resources write:resources"
+  }
+}

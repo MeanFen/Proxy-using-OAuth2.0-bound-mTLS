@@ -1,0 +1,7 @@
+file,total_requests,requests_sec,avg_latency,p90,p99,errors,non_2xx_3xx
+wrk_protected_10.log,5472,100.77,75.04ms,87.43ms,109.67ms,"Socket errors: connect 0, read 0, write 0, timeout 16",
+wrk_protected_100.log,5224,96.33,136.96ms,168.45ms,200.85ms,"Socket errors: connect 0, read 0, write 0, timeout 23",
+wrk_protected_50.log,5292,97.57,136.98ms,167.40ms,207.60ms,"Socket errors: connect 0, read 0, write 0, timeout 21",
+wrk_public_10.log,6584,121.50,61.08ms,73.18ms,94.08ms,"Socket errors: connect 0, read 0, write 0, timeout 15",
+wrk_public_100.log,5712,105.07,101.15ms,124.04ms,162.18ms,"Socket errors: connect 0, read 0, write 0, timeout 18",
+wrk_public_50.log,5764,103.34,100.88ms,123.35ms,158.65ms,"Socket errors: connect 0, read 0, write 0, timeout 10",

@@ -1,0 +1,9 @@
+Project: Zero-Trust API Authentication
+Team: Group 8
+Branch: fix/browser-bff-user-auth
+Commit: fee138ecaf11653758d66bdd6821f58133fee0d4
+Commit short: fee138e
+Created: 2026-07-02T18:42:11+07:00
+
+Private keys and virtual environments are not included.
+Run the PKI and certificate-generation scripts before starting the system.

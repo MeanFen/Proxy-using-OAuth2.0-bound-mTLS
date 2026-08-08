@@ -1,5 +1,8 @@
 # Xây dựng gateway sử dụng OAuth 2.0 mTLS bound token
-
+## **Thành viên:**
+1. Phan Phước Nghĩa
+2. Nguyễn Xuân Vinh
+3. Nguyễn Bá Nam
 ## 1. Cài công cụ cần thiết
 
 ```bash
